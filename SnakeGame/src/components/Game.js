@@ -48,7 +48,7 @@ const Game = () => {
     }
 
     useEffect (() => {
-        if (!isGameOver) [
+        if (!isGameOver) {
             const speedInterval = setInterval(() => {
                 !isGamePaused && moveSnake();
             }, SPEED);
@@ -64,10 +64,10 @@ const Game = () => {
         if (Math.abs(translationX) > Math.abs(translationY)) {
             if (translationX > 0) {
                 setDirection(Direction.Right)
-            } else {
+            }   else {
                 setDirection(Direction.Left)
             }
-        } else {
+        }   else {
             if (translationY > 0) {
                 setDirection(Direction.Down)
             } else {
@@ -77,7 +77,7 @@ const Game = () => {
     }
 
     function moveSnake () {
-        const head = { ...snake.[0] };
+        const head = { ...snake[0] };
 
         switch (direction) {
             case Direction.Right:
@@ -96,11 +96,68 @@ const Game = () => {
                 break;
         }
         if (testGameOver(head)) {
-            //PAREI NA LINHA 100 "setIsGameOver(true)"
+            setIsGameOver(true);
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+            return;
         }
-    }
-            })
-        ]
+        if (testEatsFood(head, food)) {
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+            setFood(newFoodPosition(limits));
+            setSnake([head, ...snake]);
+            setScore((prevScore) => prevScore + INCREMENT);
+        } else {
+            setSnake([head, ...snake.slice(0, -1)]);
+        }
+    } 
 
-    })
+    function testGameOver(snakeHead) {
+        return (
+            snakeHead.x < limits.minX ||
+            snakeHead.x > limits.maxX ||
+            snakeHead.y < limits.minY ||
+            snakeHead.y > limits.maxY
+        );
+    }
+
+    function testEatsFood(snakeHead, foodLocation) {
+        return snakeHead.x == foodLocation.x && snakeHead.y == foodLocation.y;
+    }
+
+    function newFoodPosition() {
+        return {
+            x: Math.floor(Math.random() * limits.maxX),
+            y: Math.floor(Math.random() * limits.maxY),
+        }
+    };
+
+    const RandomFood = useMemo(() => {
+        return <Food coords={{ x: food.x, y: food.y}} top={insets.top} />;
+    }, [food]);
+
+    return (
+        <PanGestureHandler onGestureEvent={handleGesture}>
+            <SafeAreaView style={Styles.container}>
+                <Header
+                    top={insets.top}
+                    score={score}
+                    paused={isGamePaused}
+                    pause={() => setIsGamePaused((prev) => !prev)}
+                    reload={() => setIsGameOver((prev) => !prev)}
+                />
+                <Board rows={ROWS} cols={COLS} top={insets.top} />
+                <Snake snake={snake} top={insets.top} />
+                { RandomFood }
+            </SafeAreaView>
+        </PanGestureHandler>
+    )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: colors.p6,
+        flex: 1,
+    },
+
+})
+
+export default Game
