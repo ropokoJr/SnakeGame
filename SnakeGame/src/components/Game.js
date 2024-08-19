@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState, useStates } from "react";
+import React, {useEffect, useMemo, useState } from "react";
 import {SafeAreaView, StyleSheet, Dimensions } from "react-native"
 import { PanGestureHandler } from "react-native-gesture-handler"
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -28,6 +28,7 @@ const Game = () => {
     const [snake, setSnake] = useState(SNAKE_START);
     const [food, setFood] = useState(FOOD_START);
     const [isGameOver, setIsGameOver] = useState(false);
+    const [isGamePaused, setIsGamePaused] = useState(false);
     const [score, setScore] = useState(0);
 
     const insets = useSafeAreaInsets();
@@ -136,7 +137,7 @@ const Game = () => {
 
     return (
         <PanGestureHandler onGestureEvent={handleGesture}>
-            <SafeAreaView style={Styles.container}>
+            <SafeAreaView style={styles.container}>
                 <Header
                     top={insets.top}
                     score={score}

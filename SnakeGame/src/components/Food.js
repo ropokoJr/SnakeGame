@@ -1,5 +1,5 @@
 import { Text,View } from "react-native";
-import { BORDER, Border, HEADER_HEIGHT, PIXEL } from "../consts";
+import { BORDER, HEADER_HEIGHT, PIXEL } from "../consts";
 
 const foodemojis = [
     "🍏",

@@ -1,6 +1,8 @@
 Configuração da Conta local do GIT:
     git config --global user.name ropokoJr
     git config --global user.email gustavomaganha112@gmail.com
+     
+    npm i
 
 Executar o projeto
     npx expo start

@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, TouchAbleOpacity, View} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import { colors } from "../styles/theme";
 import { HEADER_HEIGHT } from "../consts";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -14,17 +14,17 @@ const Header = ({top, score, paused, pause, reload}) => {
     }
 
     return (
-        <View style={[syleHeader, styles.header]}>
-            <TouchAbleOpacity onPress={reload}>
+        <View style={[styleHeader, styles.header]}>
+            <TouchableOpacity onPress={reload}>
                 <Ionicons name="reload" size={26} color={colors.p6} />
-            </TouchAbleOpacity>
-            <TouchAbleOpacity onPress={pause}>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={pause}>
                 <Ionicons 
                  name={paused ? "play" : "pause"}
                  size={26}
                  color={colors.p6}
                 />
-            </TouchAbleOpacity>
+            </TouchableOpacity>
             <Text style={styles.score}>{score}</Text>
         </View>
     )
